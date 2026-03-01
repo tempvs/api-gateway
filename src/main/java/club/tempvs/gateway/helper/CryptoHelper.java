@@ -3,11 +3,11 @@ package club.tempvs.gateway.helper;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.util.Base64Utils;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+import java.util.Base64;
 
 @Component
 public class CryptoHelper {
@@ -26,14 +26,14 @@ public class CryptoHelper {
         Cipher cipher = Cipher.getInstance(TRANSFORMATION);
         cipher.init(Cipher.ENCRYPT_MODE, secretKey);
         byte[] encryptedMessageBytes = cipher.doFinal(message.getBytes());
-        return Base64Utils.encodeToString(encryptedMessageBytes);
+        return Base64.getEncoder().encodeToString(encryptedMessageBytes);
     }
 
     @SneakyThrows
     public String decrypt(String message) {
         Cipher cipher = Cipher.getInstance(TRANSFORMATION);
         cipher.init(Cipher.DECRYPT_MODE, secretKey);
-        byte[] base64Decoded = Base64Utils.decodeFromString(message);
+        byte[] base64Decoded = Base64.getUrlDecoder().decode(message);
         byte[] decryptedMessageBytes = cipher.doFinal(base64Decoded);
         return new String(decryptedMessageBytes);
     }
