@@ -1,16 +1,18 @@
 spring:
   cloud:
     gateway:
-      routes:
-        - id: image
-          uri: http://localhost:8082
-        - id: message
-          uri: http://localhost:8083
-        - id: library
-          uri: http://localhost:8085
-        - id: stash
-          uri: http://localhost:8086
-        - id: profile
-          uri: http://localhost:8087
-        - id: user
-          uri: https://user-service-d4or.onrender.com/
+      server:
+        webflux:
+          routes:
+            - id: image
+              uri: http://localhost:8082
+            - id: message
+              uri: http://localhost:8083
+            - id: library
+              uri: http://localhost:8085
+            - id: stash
+              uri: http://localhost:8086
+            - id: profile
+              uri: http://localhost:8087
+            - id: user
+              uri: https://user-service-d4or.onrender.com/
