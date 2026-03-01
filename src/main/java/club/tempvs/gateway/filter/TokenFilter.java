@@ -4,6 +4,7 @@ import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.server.ServerWebExchange;
@@ -26,11 +27,10 @@ public class TokenFilter implements GlobalFilter {
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         byte[] tokenBytes = token.getBytes(CHAR_ENCODING);
         String tokenHash = DigestUtils.md5DigestAsHex(tokenBytes);
-
-        exchange.getRequest()
+        ServerHttpRequest mutatedRequest = exchange.getRequest()
                 .mutate()
                 .header(AUTHORIZATION_HEADER_NAME, tokenHash)
                 .build();
-        return chain.filter(exchange);
+        return chain.filter(exchange.mutate().request(mutatedRequest).build());
     }
 }
