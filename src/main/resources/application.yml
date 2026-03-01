@@ -49,4 +49,4 @@ spring:
             - RemoveRequestHeader=Host
             - StripPrefix=2
 authorization:
-  token: ${SECURITY_TOKEN}
+  token: ${SECURITY_TOKEN:security_token}
