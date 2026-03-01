@@ -48,3 +48,5 @@ spring:
           filters:
             - RemoveRequestHeader=Host
             - StripPrefix=2
+authorization:
+  token: ${SECURITY_TOKEN}
