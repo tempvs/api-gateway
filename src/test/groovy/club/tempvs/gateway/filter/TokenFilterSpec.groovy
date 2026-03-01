@@ -20,6 +20,7 @@ class TokenFilterSpec extends Specification {
     def request = Mock ServerHttpRequest
     def mutatedRequest = Mock ServerHttpRequest
     def requestBuilder = Mock ServerHttpRequest.Builder
+    def exchangeBuilder = Mock ServerWebExchange.Builder
 
     def setup() {
         tokenFilter = new TokenFilter(TOKEN)
@@ -37,6 +38,9 @@ class TokenFilterSpec extends Specification {
         1 * request.mutate() >> requestBuilder
         1 * requestBuilder.header(AUTHORIZATION_HEADER_NAME, encodedToken) >> requestBuilder
         1 * requestBuilder.build() >> mutatedRequest
+        1 * exchange.mutate() >> exchangeBuilder
+        1 * exchangeBuilder.request(mutatedRequest) >> exchangeBuilder
+        1 * exchangeBuilder.build() >> exchange
         1 * chain.filter(exchange)
         0 * _
     }
