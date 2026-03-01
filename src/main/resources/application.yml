@@ -1,0 +1,50 @@
+crypto:
+  key: thisisa128bitkey
+server:
+  port: ${PORT:8080}
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: image
+          uri: http://localhost:8082
+          predicates:
+            - Path=/api/image/**
+          filters:
+            - RemoveRequestHeader=Host
+            - StripPrefix=2
+        - id: message
+          uri: http://localhost:8083
+          predicates:
+            - Path=/api/message/**
+          filters:
+            - RemoveRequestHeader=Host
+            - StripPrefix=2
+        - id: library
+          uri: http://localhost:8085
+          predicates:
+            - Path=/api/library/**
+          filters:
+            - RemoveRequestHeader=Host
+            - StripPrefix=2
+        - id: stash
+          uri: http://localhost:8086
+          predicates:
+            - Path=/api/stash/**
+          filters:
+            - RemoveRequestHeader=Host
+            - StripPrefix=2
+        - id: profile
+          uri: http://localhost:8087
+          predicates:
+            - Path=/api/profile/**
+          filters:
+            - RemoveRequestHeader=Host
+            - StripPrefix=2
+        - id: user
+          uri: http://localhost:8088
+          predicates:
+            - Path=/api/user/**
+          filters:
+            - RemoveRequestHeader=Host
+            - StripPrefix=2
