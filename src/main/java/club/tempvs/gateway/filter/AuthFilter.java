@@ -33,10 +33,10 @@ public class AuthFilter implements GlobalFilter {
                 .map(String::new)
                 .orElse(null);
 
-        request.mutate()
+        ServerHttpRequest mutatedRequest = request.mutate()
                 .header(USER_INFO_HEADER_NAME, userInfoValue)
                 .build();
 
-        return chain.filter(exchange);
+        return chain.filter(exchange.mutate().request(mutatedRequest).build());
     }
 }

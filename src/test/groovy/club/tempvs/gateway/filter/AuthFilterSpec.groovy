@@ -27,6 +27,7 @@ class AuthFilterSpec extends Specification {
     ServerHttpRequest request = Mock ServerHttpRequest
     ServerHttpRequest mutatedRequest = Mock ServerHttpRequest
     Builder requestBuilder = Mock Builder
+    ServerWebExchange.Builder exchangeBuilder = Mock ServerWebExchange.Builder
     HttpCookie cookie = Mock HttpCookie
 
     def "authFilter adds 'User-Info' header downstream"() {
@@ -46,6 +47,9 @@ class AuthFilterSpec extends Specification {
         1 * request.mutate() >> requestBuilder
         1 * requestBuilder.header(USER_INFO_HEADER_NAME, userInfoValue) >> requestBuilder
         1 * requestBuilder.build() >> mutatedRequest
+        1 * exchange.mutate() >> exchangeBuilder
+        1 * exchangeBuilder.request(mutatedRequest) >> exchangeBuilder
+        1 * exchangeBuilder.build() >> exchange
         1 * chain.filter(exchange)
         0 * _
     }

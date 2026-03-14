@@ -48,7 +48,7 @@ spring:
               predicates:
                 - Path=/api/user/**
               filters:
-                - RemoveRequestHeader=Host
+                - PreserveHostHeader
                 - StripPrefix=2
 authorization:
   token: ${SECURITY_TOKEN:security_token}

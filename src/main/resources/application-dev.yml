@@ -44,5 +44,5 @@ spring:
               predicates:
                 - Path=/api/user/**
               filters:
-                - RemoveRequestHeader=Host
+                - PreserveHostHeader
                 - StripPrefix=2
