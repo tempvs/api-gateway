@@ -19,4 +19,12 @@ class CryptoHelperSpec extends Specification {
         expect:
         cryptoHelper.decrypt('07xI7leeYjRzyfoMrg6jbw==') == 'hello world!'
     }
+
+    def "test decrypt with url-encoded base64"() {
+        when:
+        String encoded = cryptoHelper.encrypt('hello world!').replace('/', '%2F')
+
+        then:
+        cryptoHelper.decrypt(encoded) == 'hello world!'
+    }
 }
